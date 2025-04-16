@@ -1,0 +1,14 @@
+name: Keep Render Awake
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"  # Runs every 15 minutes
+  workflow_dispatch:  # Allows manual runs too
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send ping to Render backend
+        run: |
+          curl -s https://code-mate-ws-service.onrender.com > /dev/null
