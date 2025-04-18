@@ -1,8 +1,12 @@
 import { Socket } from "socket.io";
 import { v4 as UUIDv4 } from "uuid";
+import { io } from "..";
 
 // It contains roomId corresponding to the participants list
 const rooms : Record<string, string[]> = {};
+
+// It stores the mapping for the clientId to its Name
+const IdNameMapping : Record<string, string> = {}; // key -> Id, Value -> Name
 
 const roomHandler = (socket: Socket) => {
 
@@ -43,10 +47,35 @@ const roomHandler = (socket: Socket) => {
         }
     };
 
+    // Creates the mapping for the clientId with its name
+    const updateMapping = ({clientId, userName}: {clientId: string, userName: string})=>{
+        console.log("Mapping Input ", clientId, userName)
+        IdNameMapping[clientId] = userName;
+        console.log("Mapping", IdNameMapping);
+    };
+
+    // Fetches the name of all client in the room with roomId
+    const getAllUserNames = ({roomId}: {roomId: string})=>{
+        // A list of all the client ids in the room
+        const clientIDs = io.sockets.adapter.rooms.get(roomId);
+
+        // Iterating on IDs to find the corresponding name
+        const allUserNames: string[] = [];
+        clientIDs?.forEach((Ids)=>{
+            allUserNames.push(IdNameMapping[Ids]);
+        });
+
+        socket.emit("all-userNames", {allUserNames});
+    };
+
     // We will call the above two function when the client will
     // emit events top create room and join room
     socket.on("create-room", createRoom);
     socket.on("join-room", joinRoom);
+
+    // We use these events to handle mapping & userFetching
+    socket.on("map-id-name", updateMapping);
+    socket.on("get-all-userNames", getAllUserNames);
 };
 
 export default roomHandler;

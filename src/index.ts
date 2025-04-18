@@ -14,7 +14,7 @@ app.use(cors());
 
 const server = http.createServer(app);
 
-const io = new Server(server, {
+export const io = new Server(server, {
     cors: {
         origin: "*",
         methods: ["GET", "POST"]
@@ -23,9 +23,15 @@ const io = new Server(server, {
 
 io.on("connection", (socket) => {
     console.log("New user connected", socket.id);
+
     roomHandler(socket); // pass the socket conn to the room handler for room creation and joining
+
     messageHandler(socket); // pass the socket conn to the message handler for chating in room
+
     codeHandler(socket); // pass the socket conn to the code handler to handle code editor syncing
+
+    socket.emit("hi", {id : socket.id});
+
     socket.on("disconnect", () => {
         console.log("User disconnected");
     });
