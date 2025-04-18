@@ -4,6 +4,8 @@ import { Server } from "socket.io";
 import http from "http";
 import cors from "cors";
 import roomHandler from "./handlers/roomHandler";
+import messageHandler from "./handlers/messageHandler";
+import codeHandler from "./handlers/codeHandler";
 
 
 const app = express();
@@ -22,6 +24,8 @@ const io = new Server(server, {
 io.on("connection", (socket) => {
     console.log("New user connected", socket.id);
     roomHandler(socket); // pass the socket conn to the room handler for room creation and joining
+    messageHandler(socket); // pass the socket conn to the message handler for chating in room
+    codeHandler(socket); // pass the socket conn to the code handler to handle code editor syncing
     socket.on("disconnect", () => {
         console.log("User disconnected");
     });
