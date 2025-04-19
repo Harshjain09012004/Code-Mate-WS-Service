@@ -6,7 +6,7 @@ import { io } from "..";
 const rooms : Record<string, string[]> = {};
 
 // It stores the mapping for the clientId to its Name
-const IdNameMapping : Record<string, string> = {}; // key -> Id, Value -> Name
+export const IdNameMapping : Record<string, string> = {}; // key -> Id, Value -> Name
 
 const roomHandler = (socket: Socket) => {
 
@@ -49,9 +49,9 @@ const roomHandler = (socket: Socket) => {
 
     // Creates the mapping for the clientId with its name
     const updateMapping = ({clientId, userName}: {clientId: string, userName: string})=>{
-        console.log("Mapping Input ", clientId, userName)
-        IdNameMapping[clientId] = userName;
-        console.log("Mapping", IdNameMapping);
+        if(clientId && userName){
+            IdNameMapping[clientId] = userName;
+        }
     };
 
     // Fetches the name of all client in the room with roomId

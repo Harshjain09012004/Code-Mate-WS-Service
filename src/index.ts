@@ -3,10 +3,9 @@ import ServerConfig from "./config/serverConfig";
 import { Server } from "socket.io";
 import http from "http";
 import cors from "cors";
-import roomHandler from "./handlers/roomHandler";
+import roomHandler, { IdNameMapping } from "./handlers/roomHandler";
 import messageHandler from "./handlers/messageHandler";
 import codeHandler from "./handlers/codeHandler";
-
 
 const app = express();
 
@@ -30,10 +29,15 @@ io.on("connection", (socket) => {
 
     codeHandler(socket); // pass the socket conn to the code handler to handle code editor syncing
 
-    socket.emit("hi", {id : socket.id});
+    socket.on("myId", ()=>{
+        socket.emit("Id", {id: socket.id});
+    });
 
     socket.on("disconnect", () => {
         console.log("User disconnected");
+        if(IdNameMapping[socket.id]){
+            delete IdNameMapping[socket.id];
+        }
     });
 });
 
