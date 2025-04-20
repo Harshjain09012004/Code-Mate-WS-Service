@@ -6,10 +6,14 @@ import cors from "cors";
 import roomHandler, { IdNameMapping } from "./handlers/roomHandler";
 import messageHandler from "./handlers/messageHandler";
 import codeHandler from "./handlers/codeHandler";
+import run from "./controller/codeRunner.controller";
 
 const app = express();
 
 app.use(cors());
+app.use(express.json());
+
+app.post('/run', run);
 
 const server = http.createServer(app);
 

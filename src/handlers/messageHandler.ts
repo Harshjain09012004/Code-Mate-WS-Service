@@ -2,8 +2,9 @@ import { Socket } from "socket.io";
 
 const messageHandler = (socket : Socket)=>{
 
-    const newMessage = ({data, roomId}: {data: string, roomId: string})=>{
-        socket.to(roomId).emit("new-message", {data});
+    const newMessage = ({chat, roomId, userName}: {chat: string,
+        roomId: string, userName: string})=>{
+        socket.to(roomId).emit("new-message", {chat, userName});
     };
 
     socket.on("new-message", newMessage);
