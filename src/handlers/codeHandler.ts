@@ -24,7 +24,8 @@ export default codeHandler;
 
 // const codeHandler = (socket : Socket)=>{
 
-//     const syncCode = ({code, roomId, filePath}: {code: string, roomId: string, filePath: string})=>{
+//     const syncCode = ({code, roomId, filePath}: 
+// {code: string, roomId: string, filePath: string})=>{
 //         socket.to(roomId).emit("update-code", {newCode: code, filePath});
 //     };
 
