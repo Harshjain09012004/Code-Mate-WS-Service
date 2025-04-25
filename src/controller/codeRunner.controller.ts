@@ -8,7 +8,7 @@ const headers = {
   'X-RapidAPI-Host': 'judge0-ce.p.rapidapi.com',
 };
 
-const CodeJudge = "https://judge0-ce.p.rapidapi.com/submissions?base64_encoded=false&wait=false";
+const CodeJudge = "https://judge0-ce.p.rapidapi.com";
 
 let timerId: NodeJS.Timeout;
 
