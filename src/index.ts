@@ -7,6 +7,7 @@ import roomHandler, { IdNameMapping } from "./handlers/roomHandler";
 import messageHandler from "./handlers/messageHandler";
 import codeHandler from "./handlers/codeHandler";
 import run from "./controller/codeRunner.controller";
+import { fetchProblems, fetchProblemDescription } from "./controller/problem.controller";
 
 const app = express();
 
@@ -14,6 +15,8 @@ app.use(cors());
 app.use(express.json());
 
 app.post('/run', run);
+app.post('/fetchProblems', fetchProblems);
+app.post('/fetchProblemDescription', fetchProblemDescription);
 
 const server = http.createServer(app);
 
